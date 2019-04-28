@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/excerpt_detail/excerpt_detail",
     "pages/article/article",
     "pages/index/index",
     "pages/excerpt/excerpt",
@@ -7,7 +8,8 @@
     "pages/test/test",
     "pages/article_group/article_group_list/article_group_list",
     "pages/article_detail/article_detail",
-    "pages/articleSearch/articleSearch"
+    "pages/articleSearch/articleSearch",
+    "pages/excerpt_share/excerpt_share"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -20,7 +22,7 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/test/test",
+        "pagePath": "pages/excerpt_detail/excerpt_detail",
         "text": "首页",
         "iconPath": "pages/icon/icon_dating.png",
         "selectedIconPath": "pages/icon/icon_dating-2.png"
@@ -55,6 +57,8 @@
     "wux-cell-group": "dist/cell-group/index",
     "wux-cell": "dist/cell/index",
     "wux-grids": "../../dist/grids/index",
-    "wux-grid": "dist/grid/index"
-  }
+    "wux-grid": "dist/grid/index",
+    "wux-fab-button": "dist/fab-button/index"
+  },
+  "sitemapLocation": "sitemap.json"
 }

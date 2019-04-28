@@ -1,0 +1,18 @@
+/* pages/excerpt_detail/excerpt_detail.wxss */
+.topTitle{
+  position: relative;
+  width: auto;
+  height: 50rpx;
+}
+
+.timeView{
+  position: relative;
+  top: 10rpx;
+  left:150rpx;
+}
+
+.titleView{
+  position: relative;
+  top:-30rpx;
+  left:350rpx;
+}

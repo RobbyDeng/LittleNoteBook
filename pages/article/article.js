@@ -17,11 +17,23 @@ Page({
   data: {
     selectShow: false,
     url: '../article_detail/article_detail',
-    selectData: [
-      { title:'最近',count:10},
-      {title:'文学',count:4},
-      { title: '娱乐', count: 6 },
-      ],//下拉列表的数据
+    article_group_list: [
+      {
+        'group_name': '最近',
+        'group_color': 'ccffcc',
+        'article_count': 10
+      },
+      {
+        'group_name': '文学',
+        'group_color': 'ef7a82',
+        'article_count': 12
+      },
+      {
+        'group_name': '旅游',
+        'group_color': 'ffcccc',
+        'article_count': 12
+      },
+    ],//下拉列表的数据
       index:0,
       last:null,
     articles: [
@@ -102,12 +114,12 @@ Page({
     //   }
 
     // })
-    var array = this.data.selectData;
+    var array = this.data.article_group_list;
     array.push("编辑分组");
     var last = array.length;
     var that = this;
     this.setData({
-      selectData: array,
+      article_group_list: array,
       last: last-1
     });
   },
@@ -172,7 +184,6 @@ Page({
   },
   navigateToDetail:function(){
     var that=this;
-    console.log("llls")
     wx.navigateTo({
       url: that.data.url,
     })

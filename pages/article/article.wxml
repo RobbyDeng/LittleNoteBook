@@ -2,13 +2,13 @@
   <image src="../icon/rili.png" class="calander"></image>
   <view class='select_box'>
     <view class='select' catchtap='selectTap'>
-        <text class='select_text'>{{selectData[index].title}}</text>
+        <text class='select_text'>{{article_group_list[index].group_name}}</text>
         <image class='select_img {{selectShow&&"select_img_rotate"}}' src='../icon/icon-arrow-bottom2.png'  background-size="contain"></image> 
     </view>
-    <view class='option_box' style='height:{{selectShow?(selectData.length>5?325:selectData.length*50):0}}rpx;'>
-      <block wx:for='{{selectData}}' wx:key='this' >
-        <text class='option' wx:if="{{index!=last}}"  data-index='{{index}}' catchtap='optionTap'>{{selectData[index].title}}({{selectData[index].count}})</text>
-        <text wx:else catchtap="navigateToGroup">{{item}}</text>
+    <view class='option_box' style='height:{{selectShow?(article_group_list.length>5?325:article_group_list.length*50):0}}rpx;'>
+      <block wx:for='{{article_group_list}}' wx:key='this' >
+        <text class='option' wx:if="{{index!=last}}"  data-index='{{index}}' catchtap='optionTap'>{{article_group_list[index].group_name}}({{article_group_list[index].article_count}})</text>
+        <text wx:else catchtap="navigateToGroup" class='option'>{{item}}</text>
      </block>
     </view>
   <image src="../icon/sousuo.png" class="search" catchtap="navigateToSearch"></image>

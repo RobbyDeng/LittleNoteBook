@@ -1,0 +1,7 @@
+<!--pages/excerpt_detail/excerpt_detail.wxml-->
+<view class='topTitle'>
+  <view class='timeView'>{{excerpt_info[0].create_time}}</view>
+  <view class='titleView'>{{excerpt_info[0].title}}</view>
+</view>
+
+<wux-fab-button position="bottomRight" theme="calm" direction="horizontal" reverse="{{ reverse }}" spaceBetween="{{ spaceBetween }}" sAngle="{{ sAngle }}" eAngle="{{ eAngle }}" buttons="{{ buttons }}" bind:click="onClick" bind:contact="onContact" />

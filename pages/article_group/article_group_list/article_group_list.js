@@ -10,17 +10,17 @@ Page({
       {
         'group_name':'最近',
         'group_color':'ccffcc',
-        'article_count':10
+        'article_count':10,
       },
       {
         'group_name':'文学',
         'group_color':'ef7a82',
-        'article_count':12
+        'article_count':12,
       },
       {
         'group_name':'旅游',
         'group_color':'ffcccc',
-        'article_count':12
+        'article_count':12,
       },
     ],
     //---------------------滑动组件绑定数据----------------------
