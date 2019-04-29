@@ -4,4 +4,4 @@
   <view class='titleView'>{{excerpt_info[0].title}}</view>
 </view>
 
-<wux-fab-button position="bottomRight" theme="calm" direction="horizontal" reverse="{{ reverse }}" spaceBetween="{{ spaceBetween }}" sAngle="{{ sAngle }}" eAngle="{{ eAngle }}" buttons="{{ buttons }}" bind:click="onClick" bind:contact="onContact" />
+<wux-fab-button position="bottomRight" theme="calm" direction="horizontal" reverse="{{ reverse }}" spaceBetween="{{ spaceBetween }}" sAngle="{{ sAngle }}" eAngle="{{ eAngle }}" buttons="{{ buttons }}" bind:click="onClick" wx:for="{{buttons}}" wx:key="*this" id="{{'btn'+index}}" bindtap='onchangeTab'/>

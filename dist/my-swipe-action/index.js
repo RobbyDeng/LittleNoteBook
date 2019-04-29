@@ -205,6 +205,7 @@ baseComponent({
         if (deltaX == 0) {
           //console.log("899")
           wx.navigateTo({
+            // 为什么跳不过去？
             url: '../article_detail/article_detail'
           })
         }

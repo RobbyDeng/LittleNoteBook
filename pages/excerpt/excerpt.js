@@ -171,6 +171,5 @@ Page({
     wx.navigateTo({
       url: that.data.url,
     })
-    console.log(url);
   }
 })

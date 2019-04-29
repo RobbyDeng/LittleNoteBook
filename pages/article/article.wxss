@@ -67,7 +67,7 @@
   height: 125rpx;
   top:-60rpx;
   left:280rpx;
-  background-color: #ccffcc;
+  /* background-color: #ccffcc; */
   border-radius: 10rpx;
   z-index: 2;
 }
@@ -145,5 +145,24 @@
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   padding: 10rpx;
+}
+.option{
+  position:relative;
+  height: 40rpx;
+}
+ .groupColor{
+  height: 30rpx;
+  width: 30rpx;
+  border-radius: 50%;
+  margin: 5rpx;
+  left:30rpx;
+  top:5rpx;
+  position:relative;
+}
+
+.groupName{
+  position: relative;
+  top: -30rpx;
+  /* left:50rpx; */
 }
 

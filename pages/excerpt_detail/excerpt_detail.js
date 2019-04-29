@@ -3,15 +3,15 @@
 const buttons = [
   {
     label: 'Share',
-    icon: '../../pages/icon/ai-share.png'
+    icon: '../../pages/icon/ai-share.png',
   },
   {
     label: 'Delete',
-    icon: '../../pages/icon/ai-delete.png'
+    icon: '../../pages/icon/ai-delete.png',
   },
   {
   label: 'Edit',
-  icon:'../../pages/icon/ai-edit.png'
+  icon:'../../pages/icon/ai-edit.png',
 },
 ]
 Page({
@@ -33,25 +33,43 @@ Page({
     spaceBetween: 10,
     buttons,
   },
+  onchangeTab: function (e) {
+    var index = 0;
+    switch (e.target.id) {
+      case "btn0":
+        index = 0;
+        break;
+      case "btn1":
+        index = 1;
+        break;
+      case "btn2":
+        index = 2;
+        break;
+      default:
+        break;
+    }
+    this.setData({
+      tabIndex: index
+    })
+  },
+
   onClick(e) {
-    console.log('onClick', e.detail.buttons.length)
-      if (e.detail.buttons[0].label == 'Share') {
+    console.log(e.target.id)
+      if (e.target.id == "btn2") {
         wx.navigateTo({
           url: '../excerpt_share/excerpt_share'
         })
       }
-      else if (e.detail.buttons[1].label == 'Edit') {
+      else if (e.target.id == "btn1") {
         wx.navigateTo({
           url: '../test/test'
         })
       }
-      else if (e.detail.buttons[2].label =='Delete') {
+      else if (e.target.id == "btn0") {
         wx.navigateTo({
           url: '../article/article'
         })
-      }
-    
-    
+      } 
   },
 
   pickerChange(e) {
