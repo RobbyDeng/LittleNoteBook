@@ -10,15 +10,7 @@
   color: #333;
   margin-top: 44rpx;
 }
-.code{
-  display: block;
-  text-align: center;
-  color: #333;
-  font-size: 76rpx;
-  font-weight: bold;
-  margin-top: 30rpx;
-}
-.who{
+.excerpt{
   display: block;
   margin-top: 80rpx;
   font-size: 32rpx;

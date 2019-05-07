@@ -166,3 +166,17 @@
   /* left:50rpx; */
 }
 
+/*授权登陆小程序*/
+.close_button2{
+  height: 40%;
+  width: 40%;
+  margin-top:100rpx;
+}
+.evil{
+  background-color: #000;
+  opacity: 0.5;
+  position:fixed;
+  left:0px;
+  top:0px;
+  z-index: 3;
+}

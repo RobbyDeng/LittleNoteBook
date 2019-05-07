@@ -1,9 +1,10 @@
 <!--pages/excerpt_share/excerpt_share.wxml-->
 <view>
   <image src="{{img}}" class='bgImg'></image>
-  <text class='mine'>我的邀请码</text>
-  <text class='code'>{{code}}</text>
-  <text class='who'>谁邀请你一起吃面?</text>
+  <text class='mine'>{{title}}</text>
+  <text class='excerpt'>{{excerpt_detail}}</text>
+ 
+  
   <text class='shareText'>生成海报分享至</text>
   <view class='imgBox'>
     <button open-type="share" class='zfbtn'><image src="{{wechat}}" class='img'></image></button>
@@ -11,9 +12,7 @@
   </view>
 
   <!--生成海报  -->
-   <!-- <view class="img-box">
-        
-    </view> -->
+
     <view class='imagePathBox' hidden="{{maskHidden == false}}">
       <image src="{{imagePath}}" class='shengcheng'></image>
       <button class='baocun' bindtap='baocun'>保存相册，分享到朋友圈</button>

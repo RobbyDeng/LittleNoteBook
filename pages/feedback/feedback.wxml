@@ -19,5 +19,5 @@
             </wux-cell>
         </wux-cell-group>
     </view>
-    <wux-button class='submit'>提交</wux-button>
+    <button class='submit' bindtap='confirm'>提交</button>
 

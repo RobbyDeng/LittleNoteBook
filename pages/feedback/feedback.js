@@ -1,5 +1,4 @@
 // pages/feedback/feedback.js
-const isTel = (value) => !/^1[34578]\d{9}$/.test(value)
 Page({
 
   /**
@@ -15,25 +14,14 @@ Page({
   onLoad: function (options) {
 
   },
-  onChange(e) {
-    console.log('onChange', e)
-    this.setData({
-      error: isTel(e.detail.value),
-      value: e.detail.value,
-    })
-  },
+  
   onFocus(e) {
     this.setData({
       error: isTel(e.detail.value),
     })
     console.log('onFocus', e)
   },
-  onBlur(e) {
-    this.setData({
-      error: isTel(e.detail.value),
-    })
-    console.log('onBlur', e)
-  },
+  
   onConfirm(e) {
     console.log('onConfirm', e)
   },
@@ -102,6 +90,22 @@ Page({
       },
     })
   },
+  confirm(){
+    wx.showModal({
+      title: '确认提交',
+      content: '确定提交以上意见吗（＾ω＾）',
+      success(res) {
+        if (res.confirm) {
+          wx.showToast({
+            title: '已提交',
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

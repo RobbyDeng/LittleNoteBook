@@ -98,10 +98,6 @@ baseComponent({
                 }
             },
         },
-        tabIndex:{
-          type: Number,
-          value: -1,
-        },
         controlled: {
             type: Boolean,
             value: false,

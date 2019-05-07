@@ -9,14 +9,28 @@ Page({
     img: "../icon/gobg.png",
     wechat: "../icon/weixin.png",
     quan: "../icon/moments.png",
-    code: "E7AI98",
     inputValue: "",
     maskHidden: false,
     name: "",
     touxiang: "",
-    code: "E7A93C"
+    title: "旅行智能好物分享",
+    excerpt_detail: "hhhhh"
   },
-
+  //获取输入框的值
+  bindKeyInput: function (e) {
+    this.setData({
+      inputValue: e.detail.value
+    })
+  },
+  //点击提交按钮
+  btnclick: function () {
+    var text = this.data.inputValue
+    wx.showToast({
+      title: text,
+      icon: 'none',
+      duration: 2000
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -60,7 +74,7 @@ Page({
     var path2 = "/images/txquan.png";
     var path3 = "/images/heise.png";
     var path4 = "/images/wenziBg.png";
-    var path5 = "../icon/wechat.png";
+    var path5 = "/images/wenxin.png";
     context.drawImage(path2, 126, 186, 120, 120);
     //不知道是什么原因，手机环境能正常显示
     // context.save(); // 保存当前context的状态
@@ -84,7 +98,7 @@ Page({
     context.setFontSize(40);
     context.setFillStyle('#ffe200');
     context.setTextAlign('center');
-    context.fillText(that.data.code, 185, 435);
+    // context.fillText(that.data.code, 185, 435);
     context.stroke();
     //绘制左下角文字背景图
     context.drawImage(path4, 25, 520, 184, 82);
@@ -161,7 +175,7 @@ Page({
       maskHidden: false
     });
     wx.showToast({
-      title: '正在生成海报^_^',
+      title: '装逼中...',
       icon: 'loading',
       duration: 1000
     });

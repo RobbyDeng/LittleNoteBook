@@ -26,7 +26,7 @@ Page({
     excerpt: [
       {
         time: '2018-2-15',
-        title: '摘抄1我好喜欢紫薇啊',
+        title: '摘抄1',
         excerpt_id: null,
         last_modify: null
       }, {
@@ -170,6 +170,15 @@ Page({
     var that = this;
     wx.navigateTo({
       url: that.data.url,
+    })
+  },
+  navigate:function(e){
+    console.log("==navigates");
+    var index=e.target.dataset.index;
+    var id = this.data.excerpt[index].excerpt_id;
+    console.log("==",index);
+    wx.navigateTo({
+      url: 'pages/excerpt_detail/excerpt_detail?id='+id,
     })
   }
 })
