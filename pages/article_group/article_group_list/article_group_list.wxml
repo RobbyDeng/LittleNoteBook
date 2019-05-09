@@ -12,8 +12,7 @@
     </block>
     <image src='/pages/icon/add.png' 
         class='add_group_image'
-        bindtap='add_group'
-    >
+        bindtap='add_group' >
     </image>
     
 

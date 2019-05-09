@@ -1,4 +1,5 @@
 import { $wuxSelect } from '../../dist/index'
+import { $wuxToptips } from '../../dist/index'
 
 var serverUrl = 'http://148.70.115.138:8000';
 var app = getApp();
@@ -11,21 +12,6 @@ Page({
    */
   data: {
     article_group_list: [
-      {
-        'group_name': '最近',
-        'group_color': 'ccffcc',
-        'article_count': 10
-      },
-      {
-        'group_name': '文学',
-        'group_color': 'ef7a82',
-        'article_count': 12
-      },
-      {
-        'group_name': '旅游',
-        'group_color': 'ffcccc',
-        'article_count': 12
-      },
     ],
     index:0,
     article_id:null,
@@ -73,21 +59,52 @@ Page({
     });
     //zhende
     this.load_articletest();
+    //获取article_group_list
+    var article_group_list;
+    wx.request({
+      url: serverUrl+'/initial_article_group_list',
+      data:{
+        user_id:user_id
+      },
+      success:function(res){
+        that.setData({
+          article_group_list:res.data.article_group_list
+        })
+      }
+    })
 
   },
   // 点击下拉显示框
   selectTap() {
-    this.setData({ selectShow: !this.data.selectShow });
-
+    var article_group_list = this.data.article_group_list;
+    this.setData({
+      selectShow: !this.data.selectShow,
+      article_group_list: article_group_list
+    });
   },
   // 点击下拉列表
   optionTap(e) {
+    var that = this;
+    var article_group_list = this.data.article_group_list;
     let Index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
     this.setData({
       index: Index,
       selectShow: !this.data.selectShow
     });
+    wx.request({
+      url: serverUrl + '/get_articles_by_group',
+      data: {
+        user_id: app.globalData.user_id,
+        group_name: article_group_list[Index].group_name
+      },
+      success: function (res) {
+        that.setData({
+          article_list: res.data.article_list
+        })
+      }
+    })
   },
+  //测试加载文章
   load_articletest: function () {
     var that = this;
     console.log("----", user_id);
@@ -328,7 +345,7 @@ Page({
         // })
         that.refresh();
         wx.navigateTo({
-          url: '摘抄页面',
+          url: '../excerpt_share/excerpt_share',
           success: function(res) {},
           fail: function(res) {},
           complete: function(res) {},

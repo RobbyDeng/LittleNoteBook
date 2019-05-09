@@ -16,12 +16,12 @@ Page({
     ],
     //---------------------滑动组件绑定数据----------------------
     right: [{
-      text: '重命名',
-      style: 'background-color: #0000AA; color: white;font-size:16px',
+      text: '编辑',
+      style: 'background-color:#8EE5EE; color: white;font-size:16px',
     },
     {
       text: '删除',
-      style: 'background-color: #CD2626; color: white;font-size:16px',
+      style: 'background-color: #ff9999; color: white;font-size:16px',
     }],
     //---------------------测试用颜色-----------------------------------
     color: ["ccffcc", "ef7a82", "ffcccc", "ffffcc", "99ffcc",
@@ -56,7 +56,7 @@ Page({
     this.setData({
       show_window:1,
       type:'新建分类',
-      contentInInput:'一个好名字',
+      contentInInput:'分类名称',
     });
     
   },
@@ -69,11 +69,11 @@ Page({
     // console.log('onClick', e);
     //定位点击的是哪一个，y是article_group_list数组的角标
     y=e.target.dataset.y
-    //定位点击的是重命名还是删除,0重命名，1删除
+    //定位点击的是编辑还是删除,0编辑，1删除
     var index=e.detail.index
     if (index==0){
       this.setData({
-        type:'重命名',
+        type:'编辑',
         show_window: 1,
         contentInInput:this.data.article_group_list[y].group_name,
       })
@@ -157,8 +157,8 @@ Page({
         })
       }
     }
-    //重命名
-    if(this.data.type=='重命名'){
+    //编辑
+    if(this.data.type=='编辑'){
       var old_group_name = this.data.article_group_list[y].group_name
       var new_group_name = this.data.contentInInput
       var group_color = this.data.color[this.data.cur]
@@ -213,7 +213,7 @@ Page({
     //向服务器发送更改内容
   },
   /**
-   * 关闭弹出的新建分类和重命名窗口
+   * 关闭弹出的新建分类和编辑窗口
    */
   onClose1() {
     this.setData({

@@ -1,6 +1,8 @@
 // pages/articleSearch/articleSearch.js
 var appInstance = getApp();
 import { $wuxToptips } from '../../dist/index'
+var serverUrl = 'http://xwnotebook.cn:8000';
+var user_id;
 
 Page({
 
@@ -18,9 +20,8 @@ Page({
     valid:false,
     blank:"",
     focus:false,
-    article_list:null,
     hint: "没有更多了 (ฅ• . •ฅ)",
-    articles: [
+    article_list: [
       {
         title: '我长这么大，还没做过飞机，需要自卑吗',
         image_url: "../icon/icon_ren.png",
@@ -106,7 +107,7 @@ Page({
     console.log(e.detail.value)
     if(e.detail.value!=""){
         wx.request({
-          url: 'localhost/search_article_by_key',
+          url: serverUrl+'/search_article_by_key',
           data:{
             user_id: appInstance.globalData.user_id,
             article_key: that.data.inputValue
@@ -177,7 +178,7 @@ Page({
     //console.log(value);
     if (value != "") {
       wx.request({
-        url: 'localhost/search_article_by_key',
+        url:serverUrl+ '/search_article_by_key',
         data: {
           user_id: appInstance.globalData.user_id,
           article_key: value  //搜索数据
@@ -217,7 +218,7 @@ Page({
     else if (e.detail.index == 1) {
       
        wx.request({
-         url: 'localhost/delete_article',
+         url: serverUrl+'/delete_article',
          data:{
            user_id: appInstance.globalData.user_id,
            article_id:e.target.dataset.id
@@ -231,10 +232,10 @@ Page({
                success() { },
              });
              //前端删除 
-            var array = that.data.articles;
+            var array = that.data.article_list;
             //console.log(array);
             //console.log(array.pop(array[index]));
-            that.setData({ articles: array });
+            that.setData({ article_list: array });
             //that.setData({article_list:res.article_list});
            }
            else{
