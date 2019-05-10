@@ -1,7 +1,7 @@
 import { $wuxSelect } from '../../dist/index'
 import { $wuxToptips } from '../../dist/index'
 
-var serverUrl = 'http://148.70.115.138:8000';
+var serverUrl = 'https://xwnotebook.cn:8000';
 var app = getApp();
 var user_id ;
 

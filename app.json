@@ -4,7 +4,6 @@
     "pages/article/article",
     "pages/excerpt/excerpt",
     "pages/mine/mine",
-    "pages/test/test",
     "pages/article_group/article_group_list/article_group_list",
     "pages/article_detail/article_detail",
     "pages/articleSearch/articleSearch",

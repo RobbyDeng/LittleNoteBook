@@ -1,6 +1,6 @@
 import { $wuxToptips } from '../../dist/index'
 var app = getApp();
-var serverUrl = 'http://xwnotebook.cn:8000';
+var serverUrl = 'https://xwnotebook.cn:8000';
 var user_id;
 Page({
   

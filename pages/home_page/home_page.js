@@ -1,6 +1,7 @@
 // pages/home_page/home_page.js
 var app = getApp();
-var serverUrl = 'http://xwnotebook.cn:8000';
+var serverUrl = 'https://xwnotebook.cn:8000';
+var sign_in_times=0;
 Page({
 
   /**
@@ -46,6 +47,15 @@ Page({
 
   },
   /**
+   * sign_in失败以后的回调函数
+   */
+  sign_in_fail: function (that) {
+    sign_in_times += 1
+    console.log("sign_in失败，正在重试")
+    console.log("重试次数", sign_in_times)
+    this.sign_in()
+  },
+  /**
      * 向服务器发送请求登录
     */
   sign_in: function () {
@@ -87,7 +97,7 @@ Page({
                       'language': app.globalData.userInfo.language,
                       'test': 'test'
                     },
-                    method: 'post',
+                    method: 'get',
                     dataType: 'json',
                     responseType: 'text',
                     success: res => {
@@ -108,6 +118,9 @@ Page({
                       //初始化数据
                       that.initial_data(that)
 
+                    },
+                    fail:res=>{
+                      that.sign_in_fail(that)
                     }
                   })
                 }
@@ -139,7 +152,7 @@ Page({
                   'city': '',
                   'language': ''
                 },
-                method: 'post',
+                method: 'get',
                 dataType: 'json',
                 responseType: 'text',
                 success: res => {
@@ -158,6 +171,9 @@ Page({
                   //初始化数据
                   that.initial_data(that)
 
+                },
+                fail: res => {
+                  that.sign_in_fail(that)
                 }
               })
             }
@@ -182,6 +198,7 @@ Page({
     //用户与服务器登陆
     this.sign_in()
   },
+  
   /*
   *  点击增加新的文章
   */
@@ -212,6 +229,14 @@ Page({
     var article_url = this.data.contentInInput
     wx.navigateTo({
       url: '../article_detail/article_detail' + '?article_url=' + article_url,
+    })
+  },
+  /**
+   * 点击文章到详细文章
+   */
+  navigateToDetail(e){
+    wx.navigateTo({
+      url: '../article_detail/article_detail' + '?article_id=' + e.currentTarget.dataset.article_id,
     })
   },
   /**
@@ -282,7 +307,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this
+    var that=this
     this.initial_data(that)
   },
 

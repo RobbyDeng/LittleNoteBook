@@ -1,7 +1,7 @@
 import { $wuxToptips } from '../../dist/index'
 var app = getApp();
 var user_id;
-var serverUrl = 'http://xwnotebook.cn:8000';
+var serverUrl = 'https://xwnotebook.cn:8000';
 
 Page({
   data: {
@@ -46,8 +46,8 @@ Page({
         },
         success: function (res) {
           console.log(res.data);
-          // console.log('XXXX', res.data.status_code == 1);
-          if (res.data.status_code == 1) {
+          console.log('XXXX', res.data.status_code == 1);
+          if (res.data.state_code == 1) {
             $wuxToptips().success({
               hidden: false,
               text: '删除成功',

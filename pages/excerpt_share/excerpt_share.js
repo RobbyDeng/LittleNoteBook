@@ -2,7 +2,7 @@ import { $wuxActionSheet } from '../../dist/index'
 
 const app = getApp()
 var user_id;
-var serverUrl = 'http://xwnotebook.cn:8000';
+var serverUrl = 'https://xwnotebook.cn:8000';
 
 Page({
 

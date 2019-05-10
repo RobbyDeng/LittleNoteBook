@@ -1,7 +1,7 @@
 // pages/excerpt_group/excerpt_group
 //全局变量用来确定点击事件点击的哪一个按钮
 var y = 0
-var serverUrl = 'http://148.70.115.138:8000'
+var serverUrl = 'https://xwnotebook.cn:8000'
 var app = getApp()
 
 Page({
