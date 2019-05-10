@@ -1,3 +1,5 @@
+import { $wuxActionSheet } from '../../dist/index'
+
 const app = getApp()
 var user_id;
 var serverUrl = 'http://xwnotebook.cn:8000';
@@ -18,8 +20,8 @@ Page({
     maskHidden: false,
     name: "",
     touxiang: "",
-    title: "文章名",
-    excerpt_detail: "只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容,只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容."
+    title: "",
+    excerpt_detail: ""
   },
   //获取输入框的值
   bindKeyInput: function (e) {
@@ -40,8 +42,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //console.log(options);
-    //this.setData({excerpt_detail:options.excerpt_detail});
+    console.log('-----'+options);
+    this.setData({excerpt_detail:options.excerpt_content,title:options.title});
     var that = this;
     wx.getUserInfo({
       success: res => {
@@ -233,12 +235,12 @@ Page({
   /**
    * 点击相册
    */
-  shareToImage:function(e){
+  shareToAlbum:function(e){
     var that = this;
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
+      sourceType: ['album'],
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
         console.log("图片临时路径：",res.tempFilePaths[0]);
@@ -253,6 +255,38 @@ Page({
             that.formSubmit();
           },
           fail(){
+            console.log("获取图片宽高失败");
+          }
+        })
+      },
+      fail() {
+        console.log("获取图片失败");
+      }
+    })
+  },
+  /**
+   * 相机生成
+   */
+  shareToCamera: function (e) {
+    var that = this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['camera'],
+      success(res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        console.log("图片临时路径：", res.tempFilePaths[0]);
+        that.setData({ img: res.tempFilePaths[0] });
+        //获取图片的宽高
+        wx.getImageInfo({
+          src: res.tempFilePaths[0],
+          success(res) {
+            console.log(res.width)
+            console.log(res.height)
+            that.setData({ imgW: res.width, imgH: res.height });
+            that.formSubmit();
+          },
+          fail() {
             console.log("获取图片宽高失败");
           }
         })
@@ -352,7 +386,7 @@ Page({
     return {
       //小程序的名字？
       title: "好咖啡要和朋友一起品尝，好句子也要和朋友一起分享。",
-      //path:'/pages/index/index?id=0',//转发页面?????邀请码
+      path:'pages/home_page/home_page',//转发页面?????邀请码
      //imageUrl:'',//转发的图片路径
       success: function (res) {
         console.log(res, "转发成功")
@@ -364,5 +398,41 @@ Page({
   },
   cancle(){
     this.setData({ maskHidden:false});
-  }
+  },
+
+  showActionSheet() {
+    var that=this;
+    const hideSheet = $wuxActionSheet().showSheet({
+      theme: 'wx',
+      titleText: '选择图片',
+      buttons: [{
+        text: '相机'
+      },
+        {
+          text: '图库'
+        },
+      {
+        text: '从手机相册选择'
+      }
+      ],
+      buttonClicked(index, item) {
+        hideSheet();
+        if(index==0){
+          //相机
+          that.shareToCamera();
+        }
+        else if(index==1){
+          //图库shareToImage
+          //this.
+        }
+        else if(index==2){
+          //相册
+          that.shareToAlbum();
+        }
+      },
+    })
+
+  },
+
 })
+

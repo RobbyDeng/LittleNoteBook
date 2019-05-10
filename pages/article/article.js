@@ -1,3 +1,4 @@
+import { $wuxToptips } from '../../dist/index'
 var app = getApp();
 var serverUrl = 'http://xwnotebook.cn:8000';
 var user_id;
@@ -24,7 +25,7 @@ Page({
   },
 // 处理左滑事件
   onClick(e) {
-    console.log('onClick', e.detail);
+    //console.log('onClick', e.detail);
     // 取消
     if(e.detail.index == 0)
     {
@@ -41,6 +42,27 @@ Page({
         data: {
           user_id: user_id,
           article_id: article_list[index].article_id
+        },
+        success: function (res) {
+          console.log(res.data);
+          console.log('XXXX', res.data.status_code == 1);
+          if (res.data.status_code == 1) {
+            $wuxToptips().success({
+              hidden: false,
+              text: '删除成功',
+              duration: 2000,
+              success() { },
+            });
+            
+          }
+          else {
+            $wuxToptips().show({
+              hidden: false,
+              text: '删除失败',
+              duration: 2000,
+              success() { },
+            })
+          }
         }
       })
       //移除列表中下标为index的项
@@ -118,6 +140,7 @@ Page({
         that.setData({
           article_list: res.data.recent_article_list
         })
+        //console.log(that.data.article_list)
       }
     })
     
@@ -133,7 +156,7 @@ Page({
         'user_id': app.globalData.user_id
       },
       success: function (res) {
-        console.log(res.data)
+        //console.log(res.data)
         var array = res.data.article_group_list;
         array.push("编辑分组");
         var last = array.length;
@@ -156,7 +179,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    var that = this;
+    //初始化分组
+    wx.request({
+      url: serverUrl + '/initial_article_group_list',
+      data: {
+        'user_id': app.globalData.user_id
+      },
+      success: function (res) {
+        console.log(res.data)
+        var array = res.data.article_group_list;
+        array.push("编辑分组");
+        var last = array.length;
+        that.setData({
+          article_group_list: array,
+          last: last - 1
+        });
+      }
+    })
   },
 
   /**
@@ -208,9 +248,9 @@ Page({
     //console.log(e);
     var that=this;
     var index=e.target.dataset.index;
-    console.log(index);
+    //console.log(index);
     var id = this.data.article_list[index].article_id;
-    console.log(id);
+    //console.log(id);
     wx.navigateTo({
       url: that.data.url+'?article_id='+id,
     })

@@ -12,8 +12,10 @@ Page({
    */
   data: {
     article_group_list: [
-    ],
+    ], 
+    excerpt_group_list:[],
     index:0,
+    index2:0,
     article_id:null,
     group_name:null,
     cur: -1,
@@ -25,12 +27,13 @@ Page({
     highlightHidden:true,
     editHidden:true,
     promptHidden:true,
+    excerptHidden:true,
     evilHidden: true,
     autoFocus:false,
     windowHeight:null,
     windowWidth:null,
     noteStyle:'',
-    editStyle:'',
+    bottom: 0,
     menuStyle:'',
     noteValue:'',
     promptstyle:'',
@@ -39,7 +42,8 @@ Page({
     title:'',
     author:'',
     content: [],
-    marker: [{},{ key1:0, value1:'', key2:1, value2:'123' }, { key1:0, value1:'', key2:0, value2:'' }, { key1: 1, value1: '#0ff', key2: 0, value2: '' }, { key1: 0, value1: '', key2: 1, value2: '笔记记录' }, { key1: 1, value1: '#0ff', key2: 1, value2: '这是一个笔记' },{ key1:0, value1:'', key2:0, value2:'' },{}, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' },{ key1:0, value1:'', key2:0, value2:'' },{ key1:0, value1:'', key2:0, value2:'' }]
+    marker: [{},{ key1:0, value1:'', key2:1, value2:'123' }, { key1:0, value1:'', key2:0, value2:'' }, { key1: 1, value1: '#0ff', key2: 0, value2: '' }, { key1: 0, value1: '', key2: 1, value2: '笔记记录' }, { key1: 1, value1: '#0ff', key2: 1, value2: '这是一个笔记' },{ key1:0, value1:'', key2:0, value2:'' },{}, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' }, { key1:0, value1:'', key2:0, value2:'' },{ key1:0, value1:'', key2:0, value2:'' },{ key1:0, value1:'', key2:0, value2:'' }],
+    modify:[]
   },
 
   /**
@@ -84,9 +88,22 @@ Page({
         })
       }
     })
-
+  
+  // 获取excerpt_group_list
+    var excerpt_group_list;
+    wx.request({
+      url: serverUrl+'/initial_excerpt_group_list',
+      data:{
+        user_id:user_id
+      },
+      success:function(res){
+        that.setData({
+          excerpt_group_list:res.data.excerpt_group_list
+        })
+      }
+    })
   },
-  // 点击下拉显示框
+  // 点击下拉文章显示框
   selectTap() {
     var article_group_list = this.data.article_group_list;
     this.setData({
@@ -94,7 +111,7 @@ Page({
       article_group_list: article_group_list
     });
   },
-  // 点击下拉列表
+  // 点击文章下拉列表
   optionTap(e) {
     var that = this;
     var article_group_list = this.data.article_group_list;
@@ -115,6 +132,38 @@ Page({
         })
       }
     })
+  },
+
+  // 点击下拉摘抄显示框
+  selectTap2() {
+    var excerpt_group_list = this.data.excerpt_group_list;
+    this.setData({
+      selectShow: !this.data.selectShow,
+      excerpt_group_list: excerpt_group_list
+    });
+  },
+
+  // 点击摘抄下拉列表
+  optionTap2(e) {
+    var that = this;
+    var excerpt_group_list = this.data.excerpt_group_list;
+    let Index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
+    this.setData({
+      index2: Index,
+      selectShow: !this.data.selectShow
+    });
+    // wx.request({
+    //   url: serverUrl + '/get_excerpt_by_group',
+    //   data: {
+    //     user_id: app.globalData.user_id,
+    //     group_name: excerpt_group_list[Index].group_name
+    //   },
+    //   success: function (res) {
+    //     that.setData({
+    //       excerpt_list: res.data.excerpt_list
+    //     })
+    //   }
+    // })
   },
  
   load_article: function (article_url) {
@@ -288,12 +337,13 @@ Page({
       noteHidden: true,
       highlightHidden: true,
       promptHidden:true,
+      excerptHidden:true,
       evilHidden: true,
       editHidden:true,
       noteStyle: '',
       menuStyle: '',
       promptStyle:'',
-      editStyle:'',
+      bottom:0,
       note: ''})
   },
   highlight: function () {
@@ -368,26 +418,46 @@ Page({
   /**
    * 摘抄事件
    */
-  excerpt:function(e){
+  save_excerpt: function (e) {
     var index = this.data.cur;
+    //console.log(index);
+    var group_index = this.data.index2;
+    //console.log(group_index);
     var that = this;
-    wx.setClipboardData({
-      data: that.data.content[index][1],
-      success(res) {
-        // wx.getClipboardData({
-        //   success(res) {
-        //     console.log(res.data) // data
-        //   }
-        // })
-        that.refresh();
-        wx.navigateTo({
-          url: '../excerpt_share/excerpt_share',
-          success: function(res) {},
-          fail: function(res) {},
-          complete: function(res) {},
+    var excerpt = that.data.content[index][1];
+    var article_id = that.data.article_id;
+    user_id = app.globalData.user_id;
+    var group_name = that.data.excerpt_group_list[group_index].group_name;
+    wx.request({
+      url: serverUrl + '/save_excerpt',
+      data: {
+        excerpt_content: excerpt,
+        user_id: user_id,
+        article_id: article_id,
+        group_name: group_name
+      },
+      success: function (res) {
+        if (res.data.state_code == 1) {
+          $wuxToptips().success({
+            hidden: false,
+            text: '摘抄成功！',
+            duration: 3000,
+            success() { },
+          })
+          that.refresh();
+        }
+      },
+      fail: function (res) {
+        $wuxToptips().show({
+          icon: 'cancel',
+          hidden: false,
+          text: '摘抄失败！请稍后再试',
+          duration: 3000,
+          success() { },
         })
+        that.refresh();
       }
-    })
+    });
   },
   /**
    * 擦除事件
@@ -428,16 +498,16 @@ Page({
   /**
    * 修改输入框样式
    */
-  modifyStyle:function(e){
-    console.log(e);
-    var style = "bottom:" + e.detail.height +"px"
+  modifyStyle: function (e) {
+    //console.log(e);
+    var style = "bottom:" + e.detail.height + "px"
     console.log(style);
-    this.setData({ editStyle:style});
+    this.setData({ bottom: e.detail.height });
   },
-  losefocus(){
-    var style = "bottom:" +0+ "px"
+  losefocus() {
+    var style = "bottom:" + 0 + "px"
     console.log(style);
-    this.setData({ editStyle: style });
+    this.setData({ bottom: 0 });
   },
   save:function(){
     var that = this;
@@ -466,13 +536,16 @@ Page({
             //tishi
             if (res.data.state_code==1){
               that.toptipSuccess();
+              that.refresh();
             }
             else{
               that.toptipFail();
+              that.refresh();
             }
           },
           fail:function(e){
             that.toptipFail();
+            that.refresh();
           }
         })
       }
@@ -485,6 +558,12 @@ Page({
     var height=this.data.windowHeight;
     var style = "width:"+width+"px;height:"+height+"px;"
     this.setData({evilHidden:false,promptHidden:false,promptStyle:style});
+  },
+  excerpt() {
+    var width = this.data.windowWidth;
+    var height = this.data.windowHeight;
+    var style = "width:" + width + "px;height:" + height + "px;"
+    this.setData({ evilHidden: false, excerptHidden: false, promptStyle: style });
   },
   toptipFail() {
     $wuxToptips().show({

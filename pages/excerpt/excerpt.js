@@ -1,28 +1,17 @@
+import { $wuxToptips } from '../../dist/index'
 var app = getApp();
 var user_id;
 var serverUrl = 'http://xwnotebook.cn:8000';
+
 Page({
   data: {
     selectShow: false,
-    url:'../excerpt_share/excerpt_share',
+    url:'../excerpt_share/excerpt_share?excerpt_content=',
     excerpt_group_list: [
     ],//下拉列表的数据
     index: 0,
     last: null,
     excerpt_list: [
-      {
-        create_time: '2018-2-15',
-        title: '小薇',
-        excerpt_content:'有一个美丽的小女孩 她的名字叫做小薇',
-        group_color:'F0FFF0',
-        excerpt_id:90
-      }, {
-        create_time: '2018-2-19',
-        title: '小薇',
-        excerpt_content: '她有一双美丽的大眼睛 她悄悄偷走我的心',
-        group_color:'F8F8FF',
-        excerpt_id:91
-      }
     ],
     right: [{
       text: '取消',
@@ -47,12 +36,34 @@ Page({
       //获取列表中要删除项的下标
       var index = e.target.dataset.index;
       var excerpt_list = this.data.excerpt_list;
+      console.log(excerpt_list)
       wx.request({
         url: serverUrl +'/delete_excerpt',
         data:{
           user_id:app.globalData.user_id,
           excerpt_id: excerpt_list[index].excerpt_id,
-          excerpt_id: excerpt_list[index].excerpt_id
+          article_id: excerpt_list[index].article_id
+        },
+        success: function (res) {
+          console.log(res.data);
+          // console.log('XXXX', res.data.status_code == 1);
+          if (res.data.status_code == 1) {
+            $wuxToptips().success({
+              hidden: false,
+              text: '删除成功',
+              duration: 2000,
+              success() { },
+            });
+
+          }
+          else {
+            $wuxToptips().show({
+              hidden: false,
+              text: '删除失败',
+              duration: 2000,
+              success() { },
+            })
+          }
         }
       })
       //移除列表中下标为index的项
@@ -85,6 +96,7 @@ Page({
         group_name: excerpt_group_list[Index].group_name
       },
       success: function (res) {
+        console.log(res.data);
         that.setData({
           excerpt_list: res.data.excerpt_list
         })
@@ -146,7 +158,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this;
+    //初始化分组
+    wx.request({
+      url: serverUrl + '/initial_excerpt_group_list',
+      data: {
+        'user_id': app.globalData.user_id
+      },
+      success: function (res) {
+        console.log(res.data)
+        var array = res.data.excerpt_group_list;
+        array.push("编辑分组");
+        var last = array.length;
+        that.setData({
+          excerpt_group_list: array,
+          last: last - 1
+        });
+      }
+    })
   },
 
   /**
@@ -188,24 +217,26 @@ Page({
       url: '../excerpt_group/excerpt_group',
     })
   },
-  navigateToSearch: function () {
-    wx.navigateTo({
-      url: '../articleSearch/articleSearch',
-    })
-  },
-  navigateToDetail: function () {
+
+  navigateToDetail: function (e) {
+    console.log("==navigates");
+    var index = e.target.dataset.index;
+    var id = this.data.excerpt_list[index].excerpt_id;
+    var excerpt = this.data.excerpt_list[index].excerpt_content;
+    var title = this.data.excerpt_list[index].title;
     var that = this;
     wx.navigateTo({
-      url: that.data.url,
+      url: that.data.url+excerpt+'&title='+title,
     })
   },
   navigate:function(e){
-    console.log("==navigates");
+    //console.log("==navigates");
     var index=e.target.dataset.index;
     var id = this.data.excerpt_list[index].excerpt_id;
+    var excerpt = this.data.excerpt_list[index].excerpt_content;
     console.log("==",index);
     wx.navigateTo({
-      url: 'pages/excerpt_share/excerpt_share',
+      url: 'pages/excerpt_share/excerpt_share?id=0',
     })
   }
 })

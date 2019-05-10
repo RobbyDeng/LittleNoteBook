@@ -10,5 +10,6 @@
     "wux-button": "../../dist/button/index",
     "wux-popup": "../../dist/popup/index",
     "wux-spin": "../../dist/spin/index"
+
   }
 }

@@ -11,27 +11,20 @@
   width:98%;
 }
 
-.search{
-  height: 50rpx;
-  width:50rpx;
-  position:relative;
-  left:600rpx;
-  top:-10rpx;
-}
 
 .no_more{
   text-align: center;
 }
 
 .select_box{
-  width:45%;
+  width:50%;
   height:70%;
   border-radius: 14rpx;
   position: relative;
   text-align: center;
   z-index: 4;
-  left:150rpx;
-  top:30rpx;
+  left:200rpx;
+  top:0rpx;
   border: black;
 }
 .select_box .select{

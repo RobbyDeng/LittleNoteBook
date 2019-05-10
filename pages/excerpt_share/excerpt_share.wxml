@@ -17,7 +17,7 @@
       </view>
     </button>
       
-      <view class="album" catchtap='shareToImage'>
+      <view class="album" catchtap='showActionSheet'>
         <view class="iamgebox"><image src="../icon/image.png" class='img' style="width:90rpx;height:90rpx;margin:10rpx" mode="scaleToFill"></image></view>
         <text>相册</text>
       </view>   
@@ -35,4 +35,5 @@
   <view class="canvas-box">
       <canvas  style="width: 375px;height: 667px;position:fixed;top:9999px" canvas-id="mycanvas"/>
   </view>  
+  <wux-actionsheet id="wux-actionsheet" />
 </view>

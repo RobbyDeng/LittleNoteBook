@@ -27,7 +27,6 @@ Page({
    */
   initial_data: function (that) {
     var user_id = app.globalData.user_id
-    var that = this
     console.log('initial_data')
     console.log('user_id', user_id)
     //得到最近的文章
@@ -283,7 +282,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this
+    this.initial_data(that)
   },
 
   /**
