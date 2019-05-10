@@ -15,21 +15,21 @@ Page({
     evilHidden: false,
     selectShow: false,
     //------------------新增一篇文章的对话框------------------------------
-    show_window:0,
+    show_window: 0,
     //输入框中默认出现的文字
     contentInInput: '',
     //-----------------得到最近的文章--------------------------------------------
-    recent_article_list:[],
+    recent_article_list: [],
   },
 
   /**
    * 初始化数据
    */
-  initial_data:function (that){
-    var user_id=app.globalData.user_id
-    var that=this
+  initial_data: function (that) {
+    var user_id = app.globalData.user_id
+    var that = this
     console.log('initial_data')
-    console.log('user_id',user_id)
+    console.log('user_id', user_id)
     //得到最近的文章
     wx.request({
       url: serverUrl + '/get_recent_articles',
@@ -39,12 +39,12 @@ Page({
       success: function (res) {
         console.log(res.data)
         that.setData({
-          recent_article_list:res.data['recent_article_list']
+          recent_article_list: res.data['recent_article_list']
         })
       }
     })
     //得到最近的摘抄
-    
+
   },
   /**
      * 向服务器发送请求登录
@@ -189,11 +189,11 @@ Page({
   add_article(e) {
     //将show_window设置为1
     // console.log(e)
-    var that=this
+    var that = this
     wx.getClipboardData({
       success(res) {
         that.setData({
-          contentInInput:res.data
+          contentInInput: res.data
         })
       }
     })
@@ -205,28 +205,14 @@ Page({
   /**
    * 点击确定键 
    */
-  confirm(e){
+  confirm(e) {
     var that = this
     this.setData({
       show_window: 0,
-      //等待框
-      spinning:1,
     });
-    //发送请求给服务器
-    wx.request({
-      url: serverUrl + '/load_article',
-      data: {
-        'user_id': app.globalData.user_id,
-        'url':this.data.contentInInput,
-      },
-      success: function (res) {
-        //得到数据
-        console.log(res.data)
-        that.setData({
-          spinning:0,
-        })
-        //跳转到其他页面
-      }
+    var article_url = this.data.contentInInput
+    wx.navigateTo({
+      url: '../article_detail/article_detail' + '?article_url=' + article_url,
     })
   },
   /**

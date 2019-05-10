@@ -48,8 +48,21 @@ Page({
   onLoad: function (options) {
     user_id = app.globalData.user_id;
     //console.log(options);
+    //console.log(options);
     var that = this;
-    this.setData({article_id:options.article_id});
+    //调用load_article接口
+    if (options.article_url) {
+      var article_url = options.article_url
+      this.load_article(article_url);
+      console.log(options)
+    }
+    //调用get_article_info接口
+    if (options.article_id) {
+      var article_id = options.article_id
+      this.get_article_info(article_id)
+      console.log(options)
+    }
+   
     wx.getSystemInfo({
       success: function (res) {
         //console.log(res.windowWidth)
@@ -57,8 +70,7 @@ Page({
         that.setData({ windowHeight: res.windowHeight, windowWidth: res.windowWidth});//设备宽高
       }
     });
-    //zhende
-    this.load_articletest();
+    
     //获取article_group_list
     var article_group_list;
     wx.request({
@@ -104,23 +116,47 @@ Page({
       }
     })
   },
-  //测试加载文章
-  load_articletest: function () {
+ 
+  load_article: function (article_url) {
     var that = this;
     console.log("----", user_id);
     wx.request({
       url: serverUrl + '/load_article',
       data: {
-        'url': 'https://mp.weixin.qq.com/s/G11wlj1tVg8A-7o4NKR-aQ',
+        'url': article_url,
         'user_id': user_id
       },
       success: function (res) {
         //console.log(res.data)
-        that.setData({title: res.data.article_dic.title,
+        that.setData({
+          article_id: res.data.article_id,
+          title: res.data.article_dic.title,
           author: res.data.article_dic.profile_nickname,
-          content:res.data.article_dic.content,
-          marker: res.data.mark_list});
-        
+          content: res.data.article_dic.content,
+          marker: res.data.mark_list
+        });
+
+      }
+    })
+  },
+  get_article_info: function (article_id) {
+    var that = this;
+    wx.request({
+      url: serverUrl + '/get_article_info',
+      data: {
+        'article_id': article_id,
+        'user_id': user_id
+      },
+      success: function (res) {
+        //console.log(res.data)
+        that.setData({
+          article_id: article_id,
+          title: res.data.article_dic.title,
+          author: res.data.article_dic.profile_nickname,
+          content: res.data.article_dic.content,
+          marker: res.data.mark_list
+        });
+
       }
     })
   },
